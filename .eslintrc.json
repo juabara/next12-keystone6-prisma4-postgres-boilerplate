@@ -1,3 +1,70 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "jest/globals": true
+  },
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "plugin:unicorn/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:sonarjs/recommended",
+    "plugin:promise/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/jsx-runtime"
+  ],
+  "plugins": ["unicorn", "sonarjs", "jest", "promise", "react", "react-hooks"],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "unicorn/no-fn-reference-in-iterator": "off",
+    "unicorn/no-array-for-each": "off",
+    "unicorn/no-null": "off",
+    "unicorn/consistent-destructuring": "off",
+    "unicorn/no-array-reduce": "off",
+    "unicorn/prefer-spread": "off",
+    "unicorn/no-array-callback-reference": "off",
+    "unicorn/consistent-function-scoping": "off",
+    "unicorn/no-useless-undefined": "off",
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "allowList": {
+          "Param": true,
+          "Req": true,
+          "Res": true
+        }
+      }
+    ],
+    "sonarjs/cognitive-complexity": ["error", 8],
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts"]
+      }
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
 }
