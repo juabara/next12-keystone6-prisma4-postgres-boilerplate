@@ -12,9 +12,42 @@ generator client {
   output   = "node_modules/.prisma/client"
 }
 
-model DeleteMeAfterFirstRealSchema {
-  id      String @id @default(uuid()) @postgresql.Uuid
-  title   String @default("")
-  slug    String @unique @default("")
-  content String @default("")
+model PrizePool {
+  id                 String   @id @default(uuid()) @postgresql.Uuid
+  prizePoolNumber    Int      @unique @default(autoincrement()) @map("prize_pool_num")
+  numOfTickets       Int      @map("num_tickets")
+  initialTicketValue Float    @map("initial_ticket_value")
+  currentTicketValue Float    @map("current_ticket_value")
+  ticketRangeBegin   Int      @map("range_begin")
+  ticketRangeEnd     Int      @map("range_end")
+  remainingTickets   Int      @map("remaining_tickets")
+  createdTime        DateTime @default(now()) @map("created_time")
+  nextHalveTime      DateTime @map("next_halve_time")
+  secretNumber       Int      @map("secret_number")
+  status             String   @default("inprogress") @map("status")
+  halves             Halve[]  @relation("Halve_prizePool")
+
+  @@map("prize_pools")
+}
+
+model Halve {
+  id                  String     @id @default(uuid()) @postgresql.Uuid
+  newTicketRangeBegin Int?       @map("new_ticket_range_begin")
+  newTicketRangeEnd   Int?       @map("new_ticket_range_end")
+  ticketValue         Float?     @map("ticket_value")
+  remainingTickets    Int?       @map("remaining_tickets")
+  halveDateTime       DateTime?  @map("halve_date_time")
+  prizePool           PrizePool? @relation("Halve_prizePool", fields: [prizePoolId], references: [id])
+  prizePoolId         String?    @map("prize_pool") @postgresql.Uuid
+
+  @@index([prizePoolId])
+  @@map("halves")
+}
+
+model User {
+  id       String @id @default(uuid()) @postgresql.Uuid
+  name     String @unique @default("")
+  password String
+
+  @@map("users")
 }
